@@ -14,14 +14,19 @@
 
 ## api一覧
 
-json用のget api
+### サーバーの起動コマンド
+
+### json用のget api
 
 url
 curl localhost:8080/tasks
 レスポンス内容
 {"id":1,"title":"0.01","created_date":"2023-05-21T12:30:56.190983+09:00","updated_date":"2023-05-21T12:30:56.190983+09:00"}
 
-json用のpost api
-
+### json用のpost api
+url 
+curl -X post localhost:8080/playdata/upload
+レスポンス内容
+{"result":true}
 
                       

@@ -1,43 +1,20 @@
 package main
 
 import (
-	"bytes"
-	"encoding/json"
-	"fmt"
+	"SystemBaseProxy/model"
+	"SystemBaseProxy/network"
 	"log"
 	"net/http"
-	"time"
 )
 
-type MasterDataVersion struct {
-	ID             int       `json:"id"`
-	Version        string    `json:"title"`
-	CreatedDate    time.Time `json:"created_date"`
-	UpdateDateDate time.Time `json:"updated_date"`
-}
-
-var version = MasterDataVersion{
-	ID:             1,
-	Version:        "0.01",
-	CreatedDate:    time.Now(),
-	UpdateDateDate: time.Now(),
-}
-
 func main() {
-	handler1 := func(w http.ResponseWriter, r *http.Request) {
-		var buf bytes.Buffer
-		enc := json.NewEncoder(&buf)
-		if err := enc.Encode(&version); err != nil {
-			log.Fatal(err)
-		}
 
-		_, err := fmt.Fprint(w, buf.String())
-		if err != nil {
-			return
-		}
-	}
+	mux := http.NewServeMux()
 
-	// GET /tasks
-	http.HandleFunc("/masterdata/version", handler1)
-	log.Fatal(http.ListenAndServe(":8080", nil))
+	// GET masterdataversion
+	mux.Handle("/masterdata/version", network.MethodHandler{"GET": http.HandlerFunc(model.GetMasterDataVersion)}["GET"])
+
+	// post playdata/updload
+	mux.Handle("/playdata/upload", network.MethodHandler{"POST": http.HandlerFunc(model.PostPlayDataUpload)}["POST"])
+	log.Fatal(http.ListenAndServe(":8080", mux))
 }
