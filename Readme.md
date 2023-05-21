@@ -26,7 +26,9 @@ curl localhost:8080/tasks
 ### json用のpost api
 url 
 curl -X post localhost:8080/playdata/upload
+
 レスポンス内容
+
 {"result":true}
 
                       
