@@ -1,6 +1,7 @@
 package model
 
 import (
+	"SystemBaseProxy/network"
 	"bytes"
 	"encoding/json"
 	"fmt"
@@ -11,10 +12,11 @@ import (
 
 //
 type MasterDataVersion struct {
-	ID             int       `json:"id"`
-	Version        string    `json:"title"`
-	CreatedDate    time.Time `json:"created_date"`
-	UpdateDateDate time.Time `json:"updated_date"`
+	ID             int                 `json:"id"`
+	Version        string              `json:"title"`
+	RequestData    map[string][]string `json:"request_data"`
+	CreatedDate    time.Time           `json:"created_date"`
+	UpdateDateDate time.Time           `json:"updated_date"`
 }
 
 var version = MasterDataVersion{
@@ -27,6 +29,7 @@ var version = MasterDataVersion{
 // マスターデータのバージョン取得
 func GetMasterDataVersion(w http.ResponseWriter, r *http.Request) {
 	var buf bytes.Buffer
+	version.RequestData = network.GetQueryParameters(r)
 	enc := json.NewEncoder(&buf)
 	if err := enc.Encode(&version); err != nil {
 		log.Fatal(err)

@@ -1,6 +1,9 @@
 package network
 
-import "net/http"
+import (
+	"net/http"
+	"net/url"
+)
 
 ///
 type MethodHandler map[string]http.Handler
@@ -14,4 +17,8 @@ func (m MethodHandler) ServerHTTP(w http.ResponseWriter, r *http.Request) {
 	}
 
 	http.Error(w, "このメソッドは使うことができません", http.StatusMethodNotAllowed)
+}
+
+func GetQueryParameters(r *http.Request) url.Values {
+	return r.URL.Query()
 }
