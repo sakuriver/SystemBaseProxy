@@ -19,7 +19,7 @@
 ### json用のget api
 
 url
-curl localhost:8080/tasks
+curl localhost:8080/masterdata/version
 レスポンス内容
 {"id":1,"title":"0.01","created_date":"2023-05-21T12:30:56.190983+09:00","updated_date":"2023-05-21T12:30:56.190983+09:00"}
 
