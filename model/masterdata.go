@@ -1,10 +1,11 @@
 package model
 
 import (
+	"SystemBaseProxy/iowriter"
 	"SystemBaseProxy/network"
 	"bytes"
 	"encoding/json"
-	"fmt"
+	"errors"
 	"log"
 	"net/http"
 	"time"
@@ -28,14 +29,17 @@ var version = MasterDataVersion{
 
 // マスターデータのバージョン取得
 func GetMasterDataVersion(w http.ResponseWriter, r *http.Request) {
+
+	if r.Method != "get" {
+		log.Fatal(errors.New("非対応メソッドです"))
+		return
+	}
+
 	var buf bytes.Buffer
 	version.RequestData = network.GetQueryParameters(r)
 	enc := json.NewEncoder(&buf)
 	if err := enc.Encode(&version); err != nil {
 		log.Fatal(err)
 	}
-	_, err := fmt.Fprint(w, buf.String())
-	if err != nil {
-		return
-	}
+	iowriter.ResposeWriteFromData(w, buf.String())
 }
