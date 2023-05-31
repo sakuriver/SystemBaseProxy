@@ -19,6 +19,7 @@ func (m MethodHandler) ServerHTTP(w http.ResponseWriter, r *http.Request) {
 	http.Error(w, "このメソッドは使うことができません", http.StatusMethodNotAllowed)
 }
 
+// getパラメータの取得
 func GetQueryParameters(r *http.Request) url.Values {
 	return r.URL.Query()
 }

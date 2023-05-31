@@ -1,9 +1,10 @@
 package model
 
 import (
+	"SystemBaseProxy/iowriter"
 	"bytes"
 	"encoding/json"
-	"fmt"
+	"errors"
 	"log"
 	"net/http"
 )
@@ -19,13 +20,15 @@ var playDataSaveRes = PlayDataResponse{
 // プレイデータのアップロードメソッド
 func PostPlayDataUpload(w http.ResponseWriter, r *http.Request) {
 
+	if r.Method != "post" {
+		log.Fatal(errors.New("非対応メソッドです"))
+		return
+	}
+
 	var buf bytes.Buffer
 	enc := json.NewEncoder(&buf)
 	if err := enc.Encode(playDataSaveRes); err != nil {
 		log.Fatal(err)
 	}
-	_, err := fmt.Fprint(w, buf.String())
-	if err != nil {
-		return
-	}
+	iowriter.ResposeWriteFromData(w, buf.String())
 }

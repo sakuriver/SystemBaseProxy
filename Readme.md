@@ -31,4 +31,6 @@ curl -X post localhost:8080/playdata/upload
 
 {"result":true}
 
-                      
+### json用のput api
+curl -X put localhost:8080/playdata/nameupdate                     
+{"result":true}
